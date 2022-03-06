@@ -1,0 +1,44 @@
+﻿apiVersion: v1
+kind: Service
+metadata:
+  name: portal
+  namespace: staging-deployment
+  labels:
+    app: portal
+    service: portal
+spec:
+  ports:
+  - port: 9080
+    name: http
+  selector:
+    app: portal
+  type: LoadBalancer
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: portal-app
+  namespace: staging-deployment
+  labels:
+    app: portal
+    version: v1
+spec:
+  selector:
+    matchLabels:
+      app: portal
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: portal
+        version: v1
+    spec:
+      containers:
+      - name: portal
+        image: docker.io/tonyfieit/portal:v0.3
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9080
+      imagePullSecrets:
+        - name: tonyfieit75-pull-secret
