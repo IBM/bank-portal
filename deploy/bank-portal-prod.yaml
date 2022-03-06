@@ -36,7 +36,7 @@ spec:
     spec:
       containers:
       - name: portal
-        image: quay.io/tonyfieit75/portal:v0.3
+        image: docker.io/tonyfieit/portal:v0.3
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9080

@@ -1,12 +1,13 @@
-def OCP_S390X_TOKEN = '<sha256~zdCX5-Lo1dhQyqu5ZsTOwRdc-QQzzyjH-c0Qcdw>'
-def OCP_S390X_API_SERVER = '<https://c107.s390x.containers.ihost.local.com:6443>'
+
+def OCP_S390X_TOKEN = '<sha256~zdCX5-Lo1dhQyqu5ZsTOwRdc-QQzzyjH-c0Qcdw>' 
+def OCP_S390X_API_SERVER = '<https://c107.s390x.containers.ihost.local.com:6443>' 
 // oc login --token=${OCP_S390X_TOKEN} --server=${OCP_S390X_API_SERVER}
-def OCP_AMD64_TOKEN = '<sha256~7dylK833xvHzms9VTl1-Ssj8MOqAEZ-HLzFb>'
-def OCP_AMD64_API_SERVER = '<https://c107.amd64.containers.cloud.ibm.com:6443>'
+def OCP_AMD64_TOKEN = '<sha256~7dylK833xvHzms9VTl1-Ssj8MOqAEZ-HLzFb>' 
+def OCP_AMD64_API_SERVER = '<https://c107.amd64.containers.cloud.ibm.com:6443>' 
 //oc login --token=${OCP_AMD64_TOKEN} --server=${OCP_AMD64_API_SERVER}
 def DOCKER_REGISTRY= 'docker.io'
-def DOCKER_REGISTRY_USER = '<docker-registry-user>'
-def DOCKER_REGISTRY_TOKEN = '<hQyqu5ZsTOwRdcLo1d-QQzzyjH-zdCX5>'
+def DOCKER_REGISTRY_USER = '<docker-registry-user>' 
+def DOCKER_REGISTRY_TOKEN = '<hQyqu5ZsTOwRdcLo1d-QQzzyjH-zdCX5>' 
 // docker login -u=${DOCKER_REGISTRY_USER} -p=${DOCKER_REGISTRY_TOKEN}'
 def S390X_LOCAL_IMAGE = 'portal:v0.3-s390x'
 def AMD64_LOCAL_IMAGE = 'portal:v0.3-amd64'
@@ -97,10 +98,10 @@ node('workers'){
       }
        stage('Push multi-arch image'){
 
-        sh "docker login -u=${DOCKER_REGISTRY_USER} -p=${DOCKER_REGISTRY_TOKEN} "
+        sh "docker login -u=${DOCKER_REGISTRY_USER} -p=${DOCKER_REGISTRY_TOKEN} ${DOCKER_REGISTRY} "
         
         // please uncomment this line if image exists in your docker container registry.
-        //sh "skopeo delete docker://${DOCKER_REGISTRY}/${DOCKER_REGISTRY_USER}/portal:${TAG} "  //delete the image if it exists.
+        sh "skopeo delete docker://${DOCKER_REGISTRY}/${DOCKER_REGISTRY_USER}/portal:${TAG} "  //delete the image if it exists.
         sh "podman manifest push portal:${TAG} docker://${DOCKER_REGISTRY}/${DOCKER_REGISTRY_USER}/portal:${TAG}" 
 
        }
